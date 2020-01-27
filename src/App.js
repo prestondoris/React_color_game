@@ -9,15 +9,21 @@ class App extends Component {
     super(props);
     this.state = {
       gameState: 'New Colors',
-      level: 'Hard',
-      boxColors: Array(9).fill().map(this.randomColor, this),
+      levels: ['Easy','Hard','Expert'],
+      curLevel: 'Hard',
+      boxColors: Array(6).fill().map(this.randomColor, this),
+      numBoxes: 6,
       rgb: '',
-      hex: ''
+      hex: '',
     };
     this.randomColor = this.randomColor.bind(this);
     this.numToHex = this.numToHex.bind(this);
     this.getRGB = this.getRGB.bind(this);
     this.getHex = this.getHex.bind(this);
+    this.boxClick = this.boxClick.bind(this);
+    this.newColors = this.newColors.bind(this);
+    this.changeDifficulty = this.changeDifficulty.bind(this);
+    this.newColorArray = this.newColorArray.bind(this);
 
     setTimeout(() => {
       const rgb = this.getRGB();
@@ -26,8 +32,20 @@ class App extends Component {
     }, 1000)
   }
 
+  newColorArray(numBoxes) {
+    return Array(numBoxes).fill().map(this.randomColor, this)
+  }
+
+  newColors() {
+    const boxColors = this.newColorArray(this.state.numBoxes);
+    const rgb = boxColors[Math.floor(Math.random() * this.state.numBoxes)];
+    const hex = this.getHex(rgb)
+    const gameState = 'New Colors'
+    this.setState({boxColors, rgb, hex, gameState});
+  }
+
   getRGB() {
-    return this.state.boxColors[Math.floor(Math.random() * 9)]
+    return this.state.boxColors[Math.floor(Math.random() * this.state.numBoxes)]
   }
 
   getHex(rgb) {
@@ -68,12 +86,32 @@ class App extends Component {
     return hex;
   }
 
+  boxClick(e) {
+    if(e.target.style.backgroundColor === this.state.rgb) {
+      const boxColors = Array(this.state.boxColors.length).fill().map(b => this.state.rgb, this);
+      const gameState = 'Play Again?';
+      this.setState({boxColors, gameState});
+    } else {
+      e.target.style.backgroundColor = 'rgb(53,53,53)';
+    }
+  }
+  
+  changeDifficulty(e) {
+    const curLevel = e.target.innerHTML;
+    let numBoxes = 6;
+    if(curLevel === 'Easy') numBoxes = 3;
+    const boxColors = this.newColorArray(numBoxes);
+    const rgb = boxColors[Math.floor(Math.random() * numBoxes)];
+    const hex = this.getHex(rgb)
+    this.setState({curLevel, boxColors, numBoxes, rgb, hex});
+  }
+
   render() {
     return (
       <div className="App">
-        <Header rgb={this.state.rgb} hex={this.state.hex} />
-        <Navbar />
-        <GameBoard boxColors={this.state.boxColors}/>
+        <Header rgb={this.state.rgb} curLevel={this.state.curLevel} hex={this.state.hex} />
+        <Navbar changeDifficulty={this.changeDifficulty} newColors={this.newColors} gameState={this.state.gameState} curLevel={this.state.curLevel} levels={this.state.levels}/>
+        <GameBoard boxClick = {this.boxClick} boxColors={this.state.boxColors}/>
       </div>
     )
   }

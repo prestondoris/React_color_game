@@ -1,0 +1,10 @@
+.gameboard {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  background-color: #353535;
+}
+
+.box:hover {
+  cursor: pointer;
+}
