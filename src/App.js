@@ -82,7 +82,7 @@ class App extends Component {
     var hexArr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "a", "b", "c", "d", "e", "f"];
     var sixteens = "" + hexArr[Math.floor(num / 16)];
     var ones = "" + hexArr[num % 16];
-    var hex = sixteens + ones;
+    var hex = sixteens.toUpperCase() + ones.toUpperCase();
     return hex;
   }
 
