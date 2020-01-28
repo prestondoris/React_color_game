@@ -8,9 +8,9 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      gameState: 'New Colors',
-      levels: ['Easy','Hard','Expert'],
-      curLevel: 'Hard',
+      gameState: 'NEW COLORS',
+      levels: ['EASY','HARD','EXPERT'],
+      curLevel: 'HARD',
       boxColors: Array(6).fill().map(this.randomColor, this),
       numBoxes: 6,
       rgb: '',
@@ -26,7 +26,7 @@ class App extends Component {
     this.newColorArray = this.newColorArray.bind(this);
 
     setTimeout(() => {
-      const rgb = this.getRGB();
+      const rgb = this.getRGB()
       const hex = this.getHex(rgb)
       this.setState({rgb, hex})
     }, 1000)
@@ -40,7 +40,7 @@ class App extends Component {
     const boxColors = this.newColorArray(this.state.numBoxes);
     const rgb = boxColors[Math.floor(Math.random() * this.state.numBoxes)];
     const hex = this.getHex(rgb)
-    const gameState = 'New Colors'
+    const gameState = 'NEW COLORS'
     this.setState({boxColors, rgb, hex, gameState});
   }
 
@@ -49,9 +49,9 @@ class App extends Component {
   }
 
   getHex(rgb) {
-    var r = Number(rgb.split("b(")[1].split(", ")[0]);
-    var g = Number(rgb.split("b(")[1].split(", ")[1]);
-    var b = Number(rgb.split("b(")[1].split(", ")[2].split(")")[0]);
+    var r = Number(rgb.split("B(")[1].split(", ")[0]);
+    var g = Number(rgb.split("B(")[1].split(", ")[1]);
+    var b = Number(rgb.split("B(")[1].split(", ")[2].split(")")[0]);
     var hex = "#" + this.numToHex(r) + this.numToHex(g) + this.numToHex(b);
     return hex;
   }
@@ -60,14 +60,14 @@ class App extends Component {
     var r = Math.floor(Math.random() * 256);
     var g = Math.floor(Math.random() * 256);
     var b = Math.floor(Math.random() * 256);
-    var rgb = "rgb(" + r + ", " + g + ", " + b + ")";
+    var rgb = "RGB(" + r + ", " + g + ", " + b + ")";
 
     var rr = this.numToHex(r);
     var gg = this.numToHex(g);
     var bb = this.numToHex(b);
     var hex = "#" + rr + gg + bb;
 
-    if (rgb === "rgb(35, 35, 35)") {
+    if (rgb === "RGB(35, 35, 35)") {
       this.randomColor(colorCode);
     } else {
       if (colorCode === "hex") {
@@ -87,19 +87,22 @@ class App extends Component {
   }
 
   boxClick(e) {
-    if(e.target.style.backgroundColor === this.state.rgb) {
+    let curBackground = e.target.style.backgroundColor
+    curBackground = curBackground.split('').map(v => v.toUpperCase()).join('');
+
+    if( curBackground === this.state.rgb) {
       const boxColors = Array(this.state.boxColors.length).fill().map(b => this.state.rgb, this);
-      const gameState = 'Play Again?';
+      const gameState = 'PLAY AGAIN?';
       this.setState({boxColors, gameState});
     } else {
-      e.target.style.backgroundColor = 'rgb(53,53,53)';
+      e.target.style.backgroundColor = 'RGB(53,53,53)';
     }
   }
   
   changeDifficulty(e) {
     const curLevel = e.target.innerHTML;
     let numBoxes = 6;
-    if(curLevel === 'Easy') numBoxes = 3;
+    if(curLevel === 'EASY') numBoxes = 3;
     const boxColors = this.newColorArray(numBoxes);
     const rgb = boxColors[Math.floor(Math.random() * numBoxes)];
     const hex = this.getHex(rgb)

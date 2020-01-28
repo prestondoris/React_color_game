@@ -4,4 +4,15 @@
   background-color:#4682B4;
   display: flex;
   flex-direction: column;
+  color: white;
+}
+
+.header-title {
+  margin: 0;
+  font-size: 2.75rem;
+}
+
+.header-color {
+  margin: 0;
+  font-size: 3rem;
 }

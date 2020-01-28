@@ -2,12 +2,12 @@ import React from 'react';
 import './Header.css'
 
 const Header = props => {
-  const colorCode = props.curLevel === 'Expert' ? <h1>{props.hex}</h1> : <h1>{props.rgb}</h1>
+  const colorCode = props.curLevel === 'EXPERT' ? <p className="header-color">{props.hex}</p> : <p className="header-color">{props.rgb}</p>
   return (
     <header className="header">
-      <h3>The Great Color Code</h3>
+      <p className="header-title">The Great Color Code</p>
       {colorCode}
-      <h3>Guessing Game</h3>
+      <p className="header-title">Guessing Game</p>
     </header>
   )
 }
